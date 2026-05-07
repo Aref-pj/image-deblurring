@@ -3,6 +3,8 @@
 This project implements an **automated image restoration system** that recovers blurred images using **Wiener Deconvolution** in the frequency domain.  
 The system intelligently estimates the optimal blur parameter by iterating over a range of Gaussian blur values and selecting the one that maximizes image sharpness while suppressing noise.
 
+**New Feature:** The system now supports **both grayscale and color images** by independently processing each RGB channel.
+
 This project is suitable for coursework in **Linear Algebra**, **Signal Processing**, or **Image Processing**, and is designed with modular, extensible code architecture.
 
 ---
@@ -13,9 +15,8 @@ This project is suitable for coursework in **Linear Algebra**, **Signal Processi
 ├── blur/           # Tools for generating synthetic Gaussian blur (PSF modeling)
 ├── deblur/         # Core computational logic (FFT + Wiener Filter)
 ├── metrics/        # Image quality assessment (L1 & L2 norms of gradients)
-├── utils/          # Image I/O, normalization, preprocessing helpers
 ├── data/           # Input blurred images and output restored results
-└── main.py         # Entry point: controls the optimization loop
+└── main.py         # Entry point: controls the optimization loop (includes I/O operations)
 ```
 
 ---
@@ -72,6 +73,18 @@ The algorithm iterates over candidate \( \sigma \) values and selects the one ma
 
 ---
 
+### 5. Color Image Processing
+
+For color images, the algorithm:
+
+- Processes each RGB channel independently using the same Wiener filter
+- Applies median blur for ringing artifact removal on each channel separately
+- Uses grayscale conversion only for quality assessment (focusing on sharpness, not color)
+- Saves the final output as a full-color image
+
+---
+
+
 ## 🚀 Usage
 
 ```bash
@@ -86,7 +99,6 @@ python main.py
 - FFT-based high performance
 - Robust Wiener regularization
 - Fully automated blur estimation
-- Modular and extensible design
 
 ---
 
@@ -96,16 +108,3 @@ python main.py
 - Sensitive to strong non-Gaussian noise
 
 ---
-
-## 🔮 Future Improvements
-
-- Blind deconvolution
-- Motion blur support
-- SSIM-based optimization
-
----
-
-## 📚 References
-
-- Gonzalez & Woods, *Digital Image Processing*
-- A. K. Jain, *Fundamentals of Digital Image Processing*
